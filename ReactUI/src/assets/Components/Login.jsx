@@ -8,8 +8,6 @@ const Login = () => {
         <form action="">
             <label className='form-label' htmlFor="un">Username</label>
             <input className='form-control' type="text" id='un' />
-            <label className='form-label' htmlFor="em">Email</label>
-            <input className='form-control' type="email" id='em' />
             <label className='form-label' htmlFor="pw">Password</label>
             <input className='form-control' type="password" name="" id="pw" />
             <div className='d-flex justify-content-center'>

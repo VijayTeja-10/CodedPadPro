@@ -23,17 +23,33 @@ const Notes = (props) => {
             </div>
           </div>
 
-          <div className='container-xl min-vh-75 bg-light border border-black'>
-              <div className='row bg-warning p-1 d-flex justify-content-between'>
-                <div className='col-7'><h3>{props.name}</h3></div>                
-                <div className='col-sm-2'>
-                <button className="btn btn-danger" type="button" onClick={()=>{setUrl(compiler)}} data-bs-toggle="offcanvas" data-bs-target="#com" aria-controls="offcanvasScrolling">Run Compiler</button>
-                </div>
-                <div className='col-sm-1' ><Link className='btn btn-info' to='/'>Back</Link></div>
-                <div className='col-sm-2 d-inline'><AI name={props.name} notes={props.notes} /></div>
+          <div className='container-xl bg-light min-vh-75 border border-black'>
+            <div className="row">
+              <div className="d-flex bg-warning">
+                <nav class="navbar navbar-expand-lg bg-warning">
+                  <div class="container-fluid">
+                    <h3 className="navbar-brand fs-3">{props.name}</h3>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                      <div class="navbar-nav">
+                        <div className="nav-link">
+                          <button className="btn btn-danger" type="button" onClick={()=>{setUrl(compiler)}} data-bs-toggle="offcanvas" data-bs-target="#com" aria-controls="offcanvasScrolling">Run Compiler</button>
+                        </div>
+                        <div className="nav-link">
+                          <div className='mx-1' ><Link className='btn btn-info' to='/'>Back</Link></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+                <div className='m-3'><AI name={props.name} notes={props.notes} /></div>
               </div>
+            </div>
               {/* using pre tag to preserve line breaks and spaces from uploaded text */}
-              <div className='row mb-3 p-3'><pre className='text-break'>{props.notes}</pre></div>
+              {/* <div className='row mb-3 p-3'><pre className='text-break'>{props.notes}</pre></div> */}
+            <div className='row m-1'><textarea className='form-control bg-dark my-2 text-light text-break' readOnly rows={22} value={props.notes} ></textarea></div>
           </div>
         </div>
         </>

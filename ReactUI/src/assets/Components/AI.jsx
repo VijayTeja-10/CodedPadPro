@@ -5,9 +5,11 @@ import axios from 'axios'
 const AI = (props) => {
     const [req,setReq]=useState('')
     const [resp,setResp]=useState('')
+    const [loading,setLoading]=useState(false)
     let user='Generate'
     const Submits= async (e)=>{
         e.preventDefault()
+        setLoading(true)
         if(props.name){
           user=`Context => Analysis/Summarization/Help, Notes name => ${props.name} and notes/text content=> ${props.notes}`
         }
@@ -25,6 +27,7 @@ const AI = (props) => {
             setResp("Sorry, I'm unable to process your request. Please try again!")
         }finally{
           setReq('')
+          setLoading(false)
         }
     }
   return (
@@ -43,12 +46,18 @@ const AI = (props) => {
                     <form className='d-flex my-4' onSubmit={Submits} >
                     <input className='form-control' type="text" placeholder='Ask here!' onChange={(e)=>{setReq(e.target.value)}} value={req} />
                     &nbsp;
-                    <button id='askai' className='btn btn-outline-info' type="submit">ASK</button>
+                    
+                    { loading?(<button className='btn btn-info d-block mx-auto' type='submit' >
+                        <div className="d-flex">
+                        <div className="spinner-border ms-auto" aria-hidden="true"></div>
+                        <strong role="status">Processing...</strong>
+                        </div>
+                    </button> ):(<button id='askai' className='btn btn-outline-info' type="submit">ASK</button> ) } 
                   </form>
                   </div>
                 </div>
               </div>
-              <button className="btn btn-danger" type="button" data-bs-toggle="offcanvas" data-bs-target="#ai" aria-controls="offcanvasScrolling">Ask AI</button>
+              <button className="btn btn-primary violet" type="button" data-bs-toggle="offcanvas" data-bs-target="#ai" aria-controls="offcanvasScrolling">Ask AI</button>
         </div>
     </>
   )
