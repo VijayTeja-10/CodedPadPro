@@ -20,7 +20,7 @@ function App() {
       
       <Routes>
         <Route path='/' element={<Home note={setNotes} />} />
-        <Route path='/notes' element={<Notes name={notes.name} notes={notes.notes} />} />
+        <Route path='/notes' element={<Notes id={notes.id} name={notes.name} notes={notes.notes} edit={notes.edit} del={notes.del_after} islock={notes.islocked} />} />
         <Route path='/add' element={<Add />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />

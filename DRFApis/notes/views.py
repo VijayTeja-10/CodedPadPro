@@ -11,7 +11,8 @@ from .models import AiModel
 class NotesView(APIView):
     def get(self,request):
         name=request.query_params.get('name')
-        note=get_object_or_404(Notes,name=name)
+        key=request.query_params.get('key')
+        note=get_object_or_404(Notes,name=name)     
         serializer=NotesSerializer(note)
         return Response(serializer.data)
     def post(self,request):
@@ -20,6 +21,24 @@ class NotesView(APIView):
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors,status=status.HTTP_306_RESERVED)
+    def patch(self,request):
+        pk=request.data.get('pk')
+        notes=Notes.objects.get(pk=pk)
+        print(notes)
+        serializer=NotesSerializer(notes,data=request.data,partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'success':'Update Success!'},status=status.HTTP_200_OK)
+        return Response({'error':'Failed to update!'},status=status.HTTP_400_BAD_REQUEST)
+    def delete(self,request):
+        pk=request.data.get('pk')
+        print(pk)
+        try :
+            notes=Notes.objects.get(pk=pk)
+            notes.delete()
+            return Response(status=status.HTTP_202_ACCEPTED)
+        except Exception:
+            return Response({'error':'This notes doesnot exist!'},status=status.HTTP_204_NO_CONTENT)
 
 class AiView(APIView):
     def post(self,request):

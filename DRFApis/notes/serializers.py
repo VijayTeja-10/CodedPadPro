@@ -1,18 +1,15 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Notes
-from rest_framework.exceptions import ValidationError
-
-class RegisterSerializer(serializers.ModelSerializer):
-    password=serializers.CharField(min_length=8,write_only=True)
-    class Meta:
-        model=User
-        fields=['username','email','password']
 
 class NotesSerializer(serializers.ModelSerializer):
+    passcode=serializers.CharField(write_only=True,allow_blank=True)
     class Meta:
         model=Notes
-        fields=['name','notes']
+        fields=['id','name','passcode','edit','notes','del_after','islocked']
+    def validate_passcode(self,passcode):
+        if not passcode:return ''
+        return passcode
     
     def validate_name(self, name):
         notes=Notes.objects.filter(name=name)
