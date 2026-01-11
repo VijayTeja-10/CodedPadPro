@@ -5,8 +5,6 @@ import Notes from './assets/Components/Notes'
 import {Route,Routes,BrowserRouter} from 'react-router-dom'
 import Header from './assets/Components/Header'
 import Add from './assets/Components/Add'
-import Login from './assets/Components/Login'
-import Register from './assets/Components/Register'
 
 function App() {
   const [notes, setNotes] = useState({})
@@ -22,8 +20,6 @@ function App() {
         <Route path='/' element={<Home note={setNotes} />} />
         <Route path='/notes' element={<Notes id={notes.id} name={notes.name} notes={notes.notes} edit={notes.edit} del={notes.del_after} islock={notes.islocked} />} />
         <Route path='/add' element={<Add />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
       </Routes>
       </BrowserRouter>
     </>

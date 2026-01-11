@@ -4,7 +4,7 @@ from decouple import config
 from datetime import timedelta
 from django.db import models
 from django.utils import timezone
-from datetime import timedelta  # <--- Make sure this is imported
+from datetime import timedelta
 
 def add_exp():
     return timezone.now() + timedelta(days=1)

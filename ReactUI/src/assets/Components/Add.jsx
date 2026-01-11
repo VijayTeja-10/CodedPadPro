@@ -11,12 +11,16 @@ const Add = () => {
     const [Error,setErrors]=useState({})
     const [edit,setEdit]=useState(false)
     const [show,setShow]=useState(false)
+    const now=new Date()
+    const today=now.toISOString()
+    const [deleted,setDelete]=useState(today)
     const handleSubmit=async (e)=>{
       e.preventDefault()
-      const userdata={name:name,notes:content,passcode:key,edit:edit,islocked:!!key}
+      const userdata={name:name,notes:content,passcode:key,edit:edit,islocked:!!key,del_after:deleted}
+      // console.log(userdata)
       try{
         const response= await axios.post('http://127.0.0.1:8000/api/',userdata)
-        console.log('success',response.data)
+        // console.log('success',response.data)
         setContent('')
         setEdit(false)
         setName('')
@@ -24,7 +28,8 @@ const Add = () => {
         setSuccess(true)
       }catch(error){
         setErrors(error.response.data)
-        console.log('errors',error.response.data)
+        // console.log('errors',error.response.data)
+        alert('Failed to create notes')
       }
     }
     const toggleIt=(e)=>{
@@ -42,14 +47,38 @@ const Add = () => {
       // console.log(!edit)
       setEdit(!edit)
     }
+    const addDay=(now,val)=>{
+      const fdate=new Date(now)
+      fdate.setDate(fdate.getDate()+val)
+      return fdate.toISOString()
+    }
+    const addMon=(now,val)=>{
+      const fdate=new Date(now)
+      fdate.setMonth(fdate.getMonth()+val)
+      return fdate.toISOString()
+    }
+    const changeDelete=(e)=>{
+      // console.log(e.target.value)
+      setDelete(e.target.value)
+    }
   return (
     <>
     {success && <div class="alert alert-warning" role="alert">
       Your Notes is Saved!
     </div>}
     <div className='container addform rounded position-relative'>
-      <div className='d-flex'>
+      <div className='d-flex navbar'>
         <p className="flex-fill fs-4 my-2">Save once, Open anywhere!</p>
+        <div className='d-flex bg-warning m-2 p-1 rounded'>
+          <h6>Can be deleted after :</h6>
+          <select className='rounded mx-1' onChange={changeDelete}>
+            <option value={today}>Today(Default)</option>
+            <option value={addDay(now,1)}>1 Day</option>
+            <option value={addDay(now,7)}>1 Week</option>
+            <option value={addMon(now,1)}>1 Month</option>
+            <option value={addMon(now,3)}>3 Months</option>
+          </select>
+        </div>
         <button className='btn btn-danger m-1 mx-3' onClick={toggleIt}>Set Password</button>
         <div className='m-2 bg-info rounded'>
           <small className='mx-1 h6'>Edit</small>

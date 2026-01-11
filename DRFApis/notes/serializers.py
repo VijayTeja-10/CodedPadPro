@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from .models import Notes
+from django.utils import timezone
+from datetime import timedelta
 
 class NotesSerializer(serializers.ModelSerializer):
     passcode=serializers.CharField(write_only=True,allow_blank=True)

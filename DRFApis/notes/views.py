@@ -4,14 +4,13 @@ from django.contrib.auth.models import User
 from .serializers import NotesSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status,generics
 from .models import AiModel
 
 # Create your views here.
 class NotesView(APIView):
     def get(self,request):
         name=request.query_params.get('name')
-        key=request.query_params.get('key')
         note=get_object_or_404(Notes,name=name)     
         serializer=NotesSerializer(note)
         return Response(serializer.data)
@@ -24,7 +23,7 @@ class NotesView(APIView):
     def patch(self,request):
         pk=request.data.get('pk')
         notes=Notes.objects.get(pk=pk)
-        print(notes)
+        # print(notes)
         serializer=NotesSerializer(notes,data=request.data,partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -32,13 +31,23 @@ class NotesView(APIView):
         return Response({'error':'Failed to update!'},status=status.HTTP_400_BAD_REQUEST)
     def delete(self,request):
         pk=request.data.get('pk')
-        print(pk)
+        # print(pk)
         try :
             notes=Notes.objects.get(pk=pk)
             notes.delete()
             return Response(status=status.HTTP_202_ACCEPTED)
         except Exception:
             return Response({'error':'This notes doesnot exist!'},status=status.HTTP_204_NO_CONTENT)
+
+class CheckInView(APIView):
+    def post(self,request):
+        pk=request.data.get('pk')
+        passcode=request.data.get('passcode')
+        ispassed=Notes.objects.filter(id=pk,passcode=passcode).exists()
+        # print('Checking =>',pk,passcode,ispassed)
+        if ispassed:
+            return Response({'passed':True},status=status.HTTP_202_ACCEPTED)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 class AiView(APIView):
     def post(self,request):
@@ -52,5 +61,5 @@ class AiView(APIView):
                 # print('request',data['req'],'response',response)
                 return Response({'rsp':response},status=status.HTTP_202_ACCEPTED)
         except Exception as e:
-            print(e)
+            # print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)

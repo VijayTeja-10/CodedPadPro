@@ -18,7 +18,7 @@ const Notes = (props) => {
     return false
   }
   const handleEdit=(e)=>{
-    console.log(props)
+    // console.log(props)
     if(props.edit){
       setText(e.target.value)
     }
@@ -27,20 +27,22 @@ const Notes = (props) => {
     const data={pk:props.id,notes:text}
     try{
       const response=await axios.patch('http://127.0.0.1:8000/api/',data)
-      console.log(response.data)
+      // console.log(response.data)
+      alert('Changes are saved')
     }catch(error){
-      console.log(error.response.data)
+      // console.log(error.response.data)
+      alert('Failed to save the changes')
     }
   }
   const handleDelete= async ()=>{
     const del={pk:props.id}
-    console.log('id =',props.id)
     try{
       const response=await axios.delete('http://127.0.0.1:8000/api/',{data:del}/* this is send as config */)
-      console.log(response.data)
+      // console.log(response.data)
+      alert('Notes is deleted')
       navigate('/')
     }catch(error){
-      console.log(error.response.data)
+      alert('Failed to delete the notes')
     }
   }
   return (

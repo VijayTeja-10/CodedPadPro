@@ -14,7 +14,7 @@ const AI = (props) => {
           user=`Context => Analysis/Summarization/Help, Notes name => ${props.name} and notes/text content=> ${props.notes}`
         }
         if(props.Con || props.head){
-          console.log(props.Con)
+          // console.log(props.Con)
           user=`Context => Notes Generation/help, This is the notes content =>${props.Con} // usergoal=> user wants to save or edit read his content, your task => understand user query and notes name/title=>${props.head}`
         }
         
